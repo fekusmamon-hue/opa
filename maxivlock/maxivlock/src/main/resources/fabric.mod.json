@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "maxivlock",
+  "version": "1.0.0",
+  "name": "Max IV Lock",
+  "description": "Si los dos padres tienen 31 en una stat, el huevo de Cobbreeding sale con 31.",
+  "license": "MIT",
+  "environment": "*",
+  "mixins": ["maxivlock.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": "1.21.1",
+    "cobblemon": "*",
+    "cobbreeding": "*"
+  }
+}
