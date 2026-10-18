@@ -8,16 +8,16 @@ import kotlin.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Se engancha al calculo de IVs de Cobbreeding. Si los dos padres tienen 31
- * en una estadistica, el huevo sale con 31 en esa estadistica.
- *
+ * Si los dos padres tienen 31 en una estadistica, el huevo sale con 31 en ella.
  * Para limitarlo solo a Ataque, deja unicamente Stats.ATTACK en LOCKED.
  */
+@Pseudo
 @Mixin(targets = "ludichat.cobbreeding.BreedingUtilities", remap = false)
 public abstract class BreedingUtilitiesMixin {
 
