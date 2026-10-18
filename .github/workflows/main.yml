@@ -2,6 +2,9 @@ name: Build mod
 on:
   push:
   workflow_dispatch:
+defaults:
+  run:
+    working-directory: maxivlock/maxivlock
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,4 +29,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: maxivlock-mod
-          path: build/libs/*.jar
+          path: maxivlock/maxivlock/build/libs/*.jar
