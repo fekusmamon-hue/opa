@@ -1,10 +1,6 @@
-name: Build mod
-on:
-  push:
-  workflow_dispatch:
-defaults:
-  run:
-    working-directory: maxivlock/maxivlock
+name: Build
+on: [push, workflow_dispatch]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,17 +12,9 @@ jobs:
           java-version: 21
       - uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: "8.11.1"
-      - name: Descargar Cobblemon
-        run: |
-          mkdir -p libs
-          URL=$(curl -s -H "User-Agent: maxivlock-build" 'https://api.modrinth.com/v2/project/cobblemon/version?loaders=%5B%22fabric%22%5D&game_versions=%5B%221.21.1%22%5D' | jq -r '.[0].files[] | select(.primary==true) | .url')
-          echo "Descargando: $URL"
-          curl -L -H "User-Agent: maxivlock-build" -o libs/cobblemon-fabric.jar "$URL"
-          ls -la libs
-      - name: Compilar
-        run: gradle build
+          gradle-version: 8.10.2
+      - run: gradle build
       - uses: actions/upload-artifact@v4
         with:
-          name: maxivlock-mod
-          path: maxivlock/maxivlock/build/libs/*.jar
+          name: cajasmod
+          path: build/libs/*.jar
