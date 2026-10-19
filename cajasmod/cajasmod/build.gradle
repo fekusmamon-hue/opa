@@ -1,0 +1,27 @@
+plugins {
+    id 'fabric-loom' version '1.9-SNAPSHOT'
+}
+version = project.mod_version
+group = 'com.cajas'
+base { archivesName = 'cajasmod' }
+
+repositories {
+    maven { url = 'https://maven.impactdev.net/repository/development/' }
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    modImplementation "com.cobblemon:fabric:${project.cobblemon_version}"
+    modImplementation "net.fabricmc:fabric-language-kotlin:1.12.3+kotlin.2.0.21"
+}
+
+tasks.withType(JavaCompile).configureEach { options.release = 21 }
+java { sourceCompatibility = JavaVersion.VERSION_21; targetCompatibility = JavaVersion.VERSION_21 }
+processResources {
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") { expand "version": project.version }
+}

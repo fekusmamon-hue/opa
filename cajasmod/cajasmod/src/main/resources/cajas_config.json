@@ -1,0 +1,266 @@
+{
+  "_moneda": "currency_item = ID de la moneda de oro (mira con F3+H). price = cuantas monedas cuesta cada caja (0 = gratis).",
+  "currency_item": "CAMBIAR_ID_MONEDA_ORO",
+  "_info": "Configuracion de cajas. Edita precios, probabilidades y contenido. 'enabled' activa o desactiva cada caja (util para cajas de torneo).",
+  "pools": {
+    "normal": {
+      "exclude": [
+        "legendary",
+        "mythical",
+        "ultrabeast",
+        "paradox"
+      ]
+    },
+    "especial": {
+      "include": [
+        "legendary",
+        "mythical",
+        "ultrabeast",
+        "paradox"
+      ]
+    }
+  },
+  "boxes": [
+    {
+      "id": "habilidad_oculta",
+      "name": "Caja Habilidad Oculta",
+      "enabled": true,
+      "price": 0,
+      "skin": "habilidad_oculta",
+      "opening": "click",
+      "rewards": [
+        {
+          "type": "pokemon",
+          "pool": "normal",
+          "count": 1,
+          "shiny": false,
+          "hidden_ability": true,
+          "chance": 100
+        }
+      ],
+      "form": "block_or_item"
+    },
+    {
+      "id": "legendaria",
+      "name": "Caja Legendaria",
+      "enabled": true,
+      "price": 0,
+      "skin": "legendaria",
+      "opening": "click",
+      "rewards": [
+        {
+          "type": "pokemon",
+          "pool": "especial",
+          "count": 1,
+          "shiny": false,
+          "chance": 100
+        }
+      ],
+      "form": "block_or_item"
+    },
+    {
+      "id": "legendaria_shiny",
+      "name": "Caja Legendaria Shiny",
+      "enabled": true,
+      "price": 0,
+      "skin": "legendaria_shiny",
+      "opening": "click",
+      "rewards": [
+        {
+          "type": "pokemon",
+          "pool": "especial",
+          "count": 1,
+          "shiny": true,
+          "chance": 100
+        }
+      ],
+      "form": "block_or_item"
+    },
+    {
+      "id": "shiny",
+      "name": "Caja Shiny",
+      "enabled": true,
+      "price": 0,
+      "skin": "shiny",
+      "opening": "click",
+      "rewards": [
+        {
+          "type": "pokemon",
+          "pool": "normal",
+          "count": 1,
+          "shiny": true,
+          "hidden_ability": false,
+          "chance": 100
+        }
+      ],
+      "form": "block_or_item"
+    },
+    {
+      "id": "objetos",
+      "name": "Caja de Objetos",
+      "enabled": true,
+      "price": 0,
+      "skin": "objetos",
+      "opening": "click",
+      "rewards": [
+        {
+          "type": "item",
+          "item": "cobblemon:master_ball",
+          "count": 1,
+          "chance": 2
+        },
+        {
+          "type": "item",
+          "item": "cobblemon:exp_candy_xl",
+          "count": 3,
+          "chance": 25
+        },
+        {
+          "type": "item",
+          "item": "cobblemon:hp_up",
+          "count": 2,
+          "chance": 15
+        },
+        {
+          "type": "item",
+          "item": "cobblemon:protein",
+          "count": 2,
+          "chance": 15
+        },
+        {
+          "type": "item",
+          "item": "cobblemon:iron",
+          "count": 2,
+          "chance": 15
+        },
+        {
+          "type": "item",
+          "item": "cobblemon:ability_patch",
+          "count": 1,
+          "chance": 3
+        },
+        {
+          "type": "item",
+          "item": "cobblemon:rare_candy",
+          "count": 5,
+          "chance": 25
+        }
+      ],
+      "form": "block_or_item"
+    },
+    {
+      "id": "torneo_arceus",
+      "name": "Caja Arceus (Torneo)",
+      "enabled": false,
+      "price": 0,
+      "opening": "click",
+      "tournament_only": true,
+      "rewards": [
+        {
+          "type": "item",
+          "item": "cobblemon:master_ball",
+          "count": 1,
+          "chance": 30
+        },
+        {
+          "type": "pokemon",
+          "pool": "especial",
+          "count": 1,
+          "shiny": true,
+          "chance": 10
+        },
+        {
+          "type": "item",
+          "item": "cobblemon:exp_candy_xl",
+          "count": 10,
+          "chance": 60
+        }
+      ],
+      "form": "static_pokemon",
+      "pokemon": {
+        "species": "arceus",
+        "no_ai": true,
+        "invulnerable": true,
+        "can_move": false,
+        "can_be_captured": false,
+        "can_battle": false
+      }
+    },
+    {
+      "id": "phione",
+      "name": "Caja Phione",
+      "enabled": true,
+      "price": 0,
+      "opening": "click",
+      "rewards": [
+        {
+          "type": "item",
+          "item": "poketools:CAMBIAR_ID_1",
+          "count": 1,
+          "chance": 40
+        },
+        {
+          "type": "item",
+          "item": "poketools:CAMBIAR_ID_2",
+          "count": 1,
+          "chance": 40
+        },
+        {
+          "type": "item",
+          "item": "poketools:CAMBIAR_ID_3",
+          "count": 1,
+          "chance": 20
+        }
+      ],
+      "form": "static_pokemon",
+      "pokemon": {
+        "species": "phione",
+        "no_ai": true,
+        "invulnerable": true,
+        "can_move": false,
+        "can_be_captured": false,
+        "can_battle": false
+      }
+    },
+    {
+      "id": "jirachi",
+      "name": "Caja Jirachi",
+      "enabled": true,
+      "price": 0,
+      "opening": "click",
+      "rewards": [
+        {
+          "type": "item",
+          "item": "poketools:CAMBIAR_ID_1",
+          "count": 1,
+          "chance": 40
+        },
+        {
+          "type": "item",
+          "item": "poketools:CAMBIAR_ID_2",
+          "count": 1,
+          "chance": 40
+        },
+        {
+          "type": "item",
+          "item": "poketools:CAMBIAR_ID_3",
+          "count": 1,
+          "chance": 20
+        }
+      ],
+      "form": "static_pokemon",
+      "pokemon": {
+        "species": "jirachi",
+        "no_ai": true,
+        "invulnerable": true,
+        "can_move": false,
+        "can_be_captured": false,
+        "can_battle": false
+      }
+    }
+  ],
+  "interaction": {
+    "right_click": "abrir caja (cobra el precio o consume la llave)",
+    "left_click": "ver el contenido y las probabilidades sin abrirla"
+  }
+}
