@@ -62,7 +62,7 @@ public class CobbleBridge {
     }
 
     static PokemonEntity spawnStatic(ServerLevel level, String species, double x, double y, double z, String tag) {
-        PokemonProperties p = PokemonProperties.Companion.parse(species + " level=50");
+        PokemonProperties p = PokemonProperties.Companion.parse(species + " level=50 uncatchable=true");
         PokemonEntity e = p.createEntity(level);
         e.setPos(x, y, z);
         e.setNoAi(true);
