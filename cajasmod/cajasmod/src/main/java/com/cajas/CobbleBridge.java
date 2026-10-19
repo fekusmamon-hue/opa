@@ -53,7 +53,7 @@ public class CobbleBridge {
             if (ab != null) p.setAbility(ab);
             Pokemon pk = p.create();
             var storage = Cobblemon.INSTANCE.getStorage();
-            if (!storage.getParty(player).add(pk)) storage.getPC(player.getUUID()).add(pk);
+            if (!storage.getParty(player).add(pk)) storage.getPC(player).add(pk);
             player.sendSystemMessage(net.minecraft.network.chat.Component.literal(
                     "Recibiste: " + (shiny ? "shiny " : "") + s.getName()));
             return true;
