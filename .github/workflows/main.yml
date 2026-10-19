@@ -3,7 +3,7 @@ on: [push, workflow_dispatch]
 
 defaults:
   run:
-    working-directory: cajasmod
+     working-directory: cajasmod/cajasmod
 
 jobs:
   build:
@@ -21,4 +21,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: cajasmod
-          path: cajasmod/build/libs/*.jar
+          path: cajasmod/cajasmod/build/libs/*.jar
