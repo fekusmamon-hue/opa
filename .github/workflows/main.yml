@@ -1,6 +1,10 @@
 name: Build
 on: [push, workflow_dispatch]
 
+defaults:
+  run:
+    working-directory: cajasmod
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,4 +21,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: cajasmod
-          path: build/libs/*.jar
+          path: cajasmod/build/libs/*.jar
