@@ -11,12 +11,11 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
 import kotlin.Unit;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.*;
 
@@ -93,7 +92,23 @@ public class CobbleBridge {
         return false;
     }
 
+    static net.minecraft.server.MinecraftServer SERVER;
+
+    /** True si hay una caja (entidad con etiqueta caja:) cuyo Pokemon tiene ese UUID. */
+    static boolean isBoxPokemon(UUID id) {
+        if (SERVER == null || id == null) return false;
+        for (ServerLevel lvl : SERVER.getAllLevels()) {
+            for (Entity e : lvl.getAllEntities()) {
+                if (e instanceof PokemonEntity pe && isBox(pe) && id.equals(pe.getPokemon().getUuid())) return true;
+            }
+        }
+        return false;
+    }
+
     static void registerProtection() {
+        ServerLifecycleEvents.SERVER_STARTED.register(s -> SERVER = s);
+        ServerLifecycleEvents.SERVER_STOPPED.register(s -> SERVER = null);
+
         // 1) Ningun dano (golpes de jugador incluso en creativo, Pokemon, fuego, etc.).
         //    Solo pasa lo que ignora la invulnerabilidad (/kill y el vacio), para poder borrarlas.
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) ->
@@ -103,12 +118,7 @@ public class CobbleBridge {
         CobblemonEvents.BATTLE_STARTED_PRE.subscribe(Priority.HIGHEST, event -> {
             for (var actor : event.getBattle().getActors()) {
                 if (!(actor instanceof PokemonBattleActor)) continue;   // solo el lado "Pokemon salvaje"
-                var wp = actor.getWorldAndPosition();
-                if (wp == null) continue;
-                ServerLevel lvl = wp.getFirst();
-                Vec3 pos = wp.getSecond();
-                AABB area = new AABB(pos, pos).inflate(1.0);
-                if (!lvl.getEntitiesOfClass(PokemonEntity.class, area, CobbleBridge::isBox).isEmpty()) {
+                if (isBoxPokemon(actor.getUuid())) {
                     event.cancel();
                     break;
                 }
