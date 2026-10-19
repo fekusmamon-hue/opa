@@ -1,13 +1,22 @@
 package com.cajas;
 
 import com.cobblemon.mod.common.Cobblemon;
+import com.cobblemon.mod.common.api.Priority;
+import com.cobblemon.mod.common.api.events.CobblemonEvents;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
+import com.cobblemon.mod.common.battles.actor.PokemonBattleActor;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
+import kotlin.Unit;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.*;
 
@@ -71,5 +80,40 @@ public class CobbleBridge {
         e.addTag(tag);
         level.addFreshEntity(e);
         return e;
+    }
+
+    // ------------------------------------------------------------------
+    // PROTECCION de las cajas-Pokemon: sin dano, sin combates.
+    // Llamar UNA vez desde CajasMod.onInitialize():  CobbleBridge.registerProtection();
+    // ------------------------------------------------------------------
+
+    /** True si la entidad es una caja (lleva la etiqueta "caja:<id>"). */
+    static boolean isBox(Entity e) {
+        for (String t : e.getTags()) if (t.startsWith("caja:")) return true;
+        return false;
+    }
+
+    static void registerProtection() {
+        // 1) Ningun dano (golpes de jugador incluso en creativo, Pokemon, fuego, etc.).
+        //    Solo pasa lo que ignora la invulnerabilidad (/kill y el vacio), para poder borrarlas.
+        ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) ->
+                !(isBox(entity) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)));
+
+        // 2) Ningun combate contra una caja (ni con Pokemon ni de otra forma).
+        CobblemonEvents.BATTLE_STARTED_PRE.subscribe(Priority.HIGHEST, event -> {
+            for (var actor : event.getBattle().getActors()) {
+                if (!(actor instanceof PokemonBattleActor)) continue;   // solo el lado "Pokemon salvaje"
+                var wp = actor.getWorldAndPosition();
+                if (wp == null) continue;
+                ServerLevel lvl = wp.getFirst();
+                Vec3 pos = wp.getSecond();
+                AABB area = new AABB(pos, pos).inflate(1.0);
+                if (!lvl.getEntitiesOfClass(PokemonEntity.class, area, CobbleBridge::isBox).isEmpty()) {
+                    event.cancel();
+                    break;
+                }
+            }
+            return Unit.INSTANCE;
+        });
     }
 }
